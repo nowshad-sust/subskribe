@@ -1,5 +1,5 @@
 import { getConnection, getRepository } from "typeorm";
-import { Program } from "./../db/entity/Program";
+import { Program } from "../entity/Program";
 import { transformProgram } from "../transformers/program";
 
 const batchSave = async (rawPrograms: any) => {

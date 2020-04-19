@@ -1,3 +1,6 @@
+import path from "path";
+import { DatabaseType } from "typeorm";
+
 const {
   APP_PORT,
   DB_TYPE,
@@ -13,12 +16,15 @@ const appConfig = {
 };
 
 const dbConfig = {
-  type: DB_TYPE,
+  type: DB_TYPE as "postgres",
   host: DB_HOST,
   port: DB_PORT,
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_NAME,
+  entities: [path.join(__dirname, "../entity/*.ts")],
+  synchronize: true,
+  logging: false,
 };
 
 export { appConfig, dbConfig };
