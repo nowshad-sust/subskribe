@@ -1,3 +1,4 @@
+require("dotenv").config();
 import "reflect-metadata";
 import express from "express";
 import cors from "cors";
@@ -6,9 +7,8 @@ import * as bodyParser from "body-parser";
 import { createConnection } from "typeorm";
 import router from "./routes";
 import { fetchPrograms } from "./jobs";
-
+import { appConfig } from "./config";
 const dbConfig = require("./db");
-const PORT = 4000;
 
 // Establish database connection
 createConnection(dbConfig)
@@ -24,8 +24,10 @@ createConnection(dbConfig)
 
     // await fetchPrograms();
 
-    app.listen(PORT, () => {
-      console.info(`App is listening on port http://localhost:${PORT}!`);
+    app.listen(appConfig.port, () => {
+      console.info(
+        `App is listening on port http://localhost:${appConfig.port}!`
+      );
     });
   })
   .catch((error) => console.error(error));
