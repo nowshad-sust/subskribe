@@ -6,6 +6,7 @@ import router from "../routes";
 
 const app: express.Application = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan("dev"));
