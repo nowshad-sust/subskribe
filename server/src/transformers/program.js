@@ -30,9 +30,9 @@
 }
 */
 
-const transformProgram = ({ slug, title }) => ({
-  title: slug,
-  description: title,
+const transformProgram = (obj) => ({
+  slug: obj.slug,
+  description: obj,
 });
 
 export { transformProgram };

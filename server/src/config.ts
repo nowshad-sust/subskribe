@@ -9,13 +9,13 @@ const {
 } = process.env;
 
 const appConfig = {
-  port: parseInt(APP_PORT),
+  port: APP_PORT,
 };
 
 const dbConfig = {
   type: DB_TYPE,
   host: DB_HOST,
-  port: parseInt(DB_PORT),
+  port: DB_PORT,
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_NAME,

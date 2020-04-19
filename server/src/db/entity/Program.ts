@@ -11,13 +11,11 @@ export class Program {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    length: 100,
-  })
-  title: string;
-
   @Column()
-  description: string;
+  slug: string;
+
+  @Column({ type: "json" })
+  description: JSON;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
