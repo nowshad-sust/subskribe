@@ -1,14 +1,8 @@
-import express, { Request, Response, Router } from "express";
-import { getAll } from "../services/programs";
-import { Pagination } from "../types";
+import { Router } from "express";
+import ProgramController from "../controllers/ProgramsController";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
-  const page: number = parseInt(req.query.page as string);
-  const limit: number = parseInt(req.query.limit as string);
-  const data = await getAll({ page, limit });
-  res.status(200).json(data);
-});
+router.get("/", ProgramController.listAll);
 
 export default router;
