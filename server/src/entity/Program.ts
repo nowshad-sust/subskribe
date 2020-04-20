@@ -1,12 +1,14 @@
 import {
   Entity,
   Column,
+  Unique,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 @Entity()
+@Unique(["slug"])
 export class Program {
   @PrimaryGeneratedColumn()
   id: number;
