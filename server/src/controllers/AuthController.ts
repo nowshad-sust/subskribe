@@ -1,8 +1,9 @@
 import { Request, Response, Router } from "express";
-import { validate } from "class-validator";
+import { validate, ValidationError } from "class-validator";
 import * as jwt from "jsonwebtoken";
 import { User } from "../entity/User";
 import { generateToken } from "../services/auth";
+import { ErrorHandler } from "../utils/index";
 import {
   getUserByEmail,
   getUserById,
@@ -11,23 +12,18 @@ import {
 } from "../services/user";
 
 const login = async (req: Request, res: Response) => {
-  // Check if email and password are set
   const { email, password } = req.body;
-  if (!(email && password)) {
-    res.status(400).json("bad request");
-  }
 
   let user: User;
   try {
-    // Get user from database
     user = await getUserByEmail(email);
   } catch (error) {
-    return res.status(401).json("unauthorized");
+    throw new ErrorHandler(401, "unauthorized");
   }
 
   // Check if encrypted password match
   if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-    return res.status(401).json("unauthorized");
+    throw new ErrorHandler(401, "unauthorized");
   }
 
   // Sing JWT, valid for 1 hour
@@ -44,7 +40,7 @@ const changePassword = async (req: Request, res: Response) => {
   // Get parameters from the body
   const { oldPassword, newPassword } = req.body;
   if (!(oldPassword && newPassword)) {
-    res.status(400).json("bad request");
+    throw new ErrorHandler(400, "bad request");
   }
 
   let user: User;
@@ -52,18 +48,23 @@ const changePassword = async (req: Request, res: Response) => {
     // Get user from the database
     user = await getUserById(id);
   } catch (id) {
-    return res.status(401).json("unauthorized");
+    throw new ErrorHandler(401, "unauthorized");
   }
 
   // Check if old password matchs
   if (!user.checkIfUnencryptedPasswordIsValid(oldPassword)) {
-    return res.status(401).json("unauthorized");
+    throw new ErrorHandler(401, "unauthorized");
   }
 
   user.password = newPassword;
   const errors = await validate(user);
   if (errors.length > 0) {
-    return res.status(400).json(errors);
+    const message = errors
+      .map((error: ValidationError) =>
+        Object.values(error.constraints as Object)
+      )
+      .join(", ");
+    throw new ErrorHandler(401, message);
   }
 
   await updatePassword(user);

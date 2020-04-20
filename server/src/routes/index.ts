@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import auth from "./auth";
 import programs from "./programs";
 
