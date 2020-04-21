@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { createConnection, Connection } from "typeorm";
 import app from "./config/app";
 import { appConfig } from "./config/env";
+import "./jobs";
 
 // Establish database connection
 createConnection()

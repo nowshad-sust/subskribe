@@ -1,12 +1,16 @@
-import { getConnection, getRepository } from "typeorm";
+import { getConnection, EntityManager, getRepository } from "typeorm";
+import { upsert } from "../utils/typeormUpsert";
 import { Program } from "../entity/Program";
 import { transformProgram } from "../transformers/program";
 import { Pagination } from "../types";
 
 const batchSave = async (rawPrograms: any) => {
   const programs = rawPrograms.map(transformProgram);
-  const programRepository = getRepository(Program);
-  return await programRepository.save(programs);
+  const connection = getConnection();
+  const upserted_post = await upsert(connection.manager, Program, programs, {
+    pk: "slug",
+  });
+  return await upserted_post;
 };
 
 const getAll = async ({ page, limit }: Pagination) => {
