@@ -23,25 +23,24 @@ const queryParams = {
   year_end: "2020",
   year_start: "1980",
 };
-/**
-const totalPages = 64220;
-const obj = {
-  metadata: {
-    content_kind: null,
-    display_name: null,
-    page_description: "lol",
-    page_subtext: null,
-    row_subtext: null,
-    ad_data: null,
-    ad_conditions: null,
-    disabled_filters: [],
-  },
-  results: [],
-  has_more: false,
-  slug: null,
-  display_name: null,
-};
-*/
+
+// const totalPages = 64220;
+// const obj = {
+//   metadata: {
+//     content_kind: null,
+//     display_name: null,
+//     page_description: "lol",
+//     page_subtext: null,
+//     row_subtext: null,
+//     ad_data: null,
+//     ad_conditions: null,
+//     disabled_filters: [],
+//   },
+//   results: [],
+//   has_more: false,
+//   slug: null,
+//   display_name: null,
+// };
 
 let browser: Browser;
 
@@ -66,7 +65,7 @@ export const fetchPages = async () => {
       if (page === TEMP_PAGE_LIMIT) {
         hasNextPage = false;
       }
-      page++;
+      page = page + 1;
     } catch {
       initBrowser();
     }
@@ -91,25 +90,4 @@ const fetchPage = async (page: number) => {
   await tab.goto("about:blank");
   await tab.close();
   return data;
-};
-
-export const fetchPrograms = async () => {
-  const proxy = getProxy();
-  const url = queryString.stringifyUrl({ url: ROOT_URL, query: queryParams });
-
-  const browser = await puppeteer.launch({
-    args: [`--proxy-server=http://${proxy}`, "--incognito"],
-  });
-  const page = await browser.newPage();
-  await page.goto(url);
-
-  const data = await page.evaluate(() =>
-    JSON.parse(document.querySelector("body")?.innerText || "{}")
-  );
-
-  if (data) {
-    const res = await batchSave(data.results);
-    console.log("db resp: ", res);
-  }
-  await browser.close();
 };

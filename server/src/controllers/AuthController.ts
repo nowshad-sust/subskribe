@@ -61,7 +61,7 @@ const changePassword = async (req: Request, res: Response) => {
   if (errors.length > 0) {
     const message = errors
       .map((error: ValidationError) =>
-        Object.values(error.constraints as Object)
+        Object.values(error.constraints as object)
       )
       .join(", ");
     throw new ErrorHandler(401, message);

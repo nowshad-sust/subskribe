@@ -1,8 +1,6 @@
 import { EntityManager, QueryFailedError } from "typeorm";
 
-interface Type<T> extends Function {
-  new (...args: any[]): T;
-}
+type Type<T> = new (...args: any[]) => T;
 
 export interface UpsertOptions<E extends {}, K = keyof E> {
   skip?: K[];
@@ -14,7 +12,8 @@ function arrayify<T>(maybe: T | T[]) {
 }
 
 function objectKeys<T extends object>(obj: T) {
-  return Object.keys(obj) as Array<keyof typeof obj>;
+  type K = keyof typeof obj;
+  return Object.keys(obj) as K[];
 }
 
 export async function upsert<E extends {}>(
