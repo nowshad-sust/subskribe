@@ -1,8 +1,9 @@
-import { getConnection, EntityManager, getRepository } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { upsert } from "../utils/typeormUpsert";
 import { Program } from "../entity/Program";
+import { User } from "../entity/User";
 import { transformProgram } from "../transformers/program";
-import { Pagination } from "../types";
+import { Pagination, AttachProgram } from "../types";
 
 const batchSave = async (rawPrograms: any) => {
   const programs = rawPrograms.map(transformProgram);
@@ -22,4 +23,24 @@ const getAll = async ({ page, limit }: Pagination) => {
     .getMany();
 };
 
-export { batchSave, getAll };
+const attachDetachProgram = async ({ userId, programId }: AttachProgram) => {
+  const userRepo = getRepository(User);
+
+  const user: User = (await userRepo.findOne(userId, {
+    relations: ["programs"],
+  })) as User;
+
+  const program: Program = (await getRepository(Program).findOne({
+    id: programId,
+  })) as Program;
+
+  const programExists = user.programs.findIndex((p) => p.id === programId);
+  if (programExists !== -1) {
+    user.programs = user.programs.filter((p) => p.id !== programId);
+  } else {
+    user.programs.push(program);
+  }
+  return await userRepo.save(user);
+};
+
+export { batchSave, getAll, attachDetachProgram };

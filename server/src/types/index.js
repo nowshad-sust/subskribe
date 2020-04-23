@@ -7,3 +7,8 @@ export interface CustomError extends Error {
   statusCode: number;
   message: any;
 }
+
+export interface AttachProgram {
+  userId: number;
+  programId: number;
+}

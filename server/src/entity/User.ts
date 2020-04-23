@@ -6,9 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 import * as bcrypt from "bcrypt";
+import { Program } from "./Program";
 
 const saltRounds = 8;
 
@@ -35,6 +38,10 @@ export class User extends BaseEntity {
 
   @Column({ type: "enum", enum: RolesEnum, default: RolesEnum.User })
   role: string;
+
+  @ManyToMany((type) => Program, (program) => program.users)
+  @JoinTable()
+  programs: Program[];
 
   hashPassword() {
     this.password = bcrypt.hashSync(this.password, saltRounds);

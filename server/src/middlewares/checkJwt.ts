@@ -1,11 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
+import { ErrorHandler } from "../utils/index";
 
 const jwtSecret: string = process.env.JWT_SECRET as string;
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   // Get the jwt token from the head
   const token: string = req.headers.authorization as string;
+  if (!token) {
+    throw new ErrorHandler(401, "unauthorized");
+  }
+
   let jwtPayload;
 
   // Try to validate the token and get data
@@ -14,8 +19,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     res.locals.jwtPayload = jwtPayload;
   } catch (error) {
     // If token is not valid, respond with 401 (unauthorized)
-    res.status(401).json("unauthorized");
-    return;
+    throw new ErrorHandler(401, "unauthorized");
   }
 
   // The token is valid for 1 hour
