@@ -23,6 +23,13 @@ const getAll = async ({ page, limit }: Pagination) => {
     .getMany();
 };
 
+const listFavourites = async (userId: number) => {
+  const user: User = (await getRepository(User).findOne(userId, {
+    relations: ["programs"],
+  })) as User;
+  return user.programs;
+};
+
 const attachDetachProgram = async ({ userId, programId }: AttachProgram) => {
   const userRepo = getRepository(User);
 
@@ -43,4 +50,4 @@ const attachDetachProgram = async ({ userId, programId }: AttachProgram) => {
   return await userRepo.save(user);
 };
 
-export { batchSave, getAll, attachDetachProgram };
+export { batchSave, getAll, listFavourites, attachDetachProgram };

@@ -12,6 +12,12 @@ router.get(
   expressAsyncHandler(ProgramController.listAll)
 );
 
+router.get(
+  "/favourites",
+  [checkJwt],
+  expressAsyncHandler(ProgramController.getFavourites)
+);
+
 router.post(
   "/favourites",
   [checkJwt],

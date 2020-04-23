@@ -1,4 +1,5 @@
 import { errorHandler } from "./../middlewares/errorHandler";
+import responseEnhancer from "express-response-formatter";
 import express from "express";
 import compression from "compression";
 import cors from "cors";
@@ -14,8 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan("dev"));
+app.use(responseEnhancer());
 
 app.use("/api/v1", routes);
+
 app.use(errors());
 app.use(errorHandler);
 

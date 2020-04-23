@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
-import { getAll, attachDetachProgram } from "../services/programs";
+import {
+  getAll,
+  attachDetachProgram,
+  listFavourites,
+} from "../services/programs";
 
 const listAll = async (req: Request, res: Response) => {
   const page: number = parseInt(req.query.page as string, 10);
   const limit: number = parseInt(req.query.limit as string, 10);
   const data = await getAll({ page, limit });
-  res.status(200).json(data);
+  res.formatter.ok(data);
 };
 
 const toggleInFavourites = async (req: Request, res: Response) => {
@@ -13,10 +17,17 @@ const toggleInFavourites = async (req: Request, res: Response) => {
   const programId: number = parseInt(req.body.programId as string, 10);
 
   const result = await attachDetachProgram({ userId, programId });
-  res.status(200).json(result);
+  res.formatter.ok(result);
+};
+
+const getFavourites = async (req: Request, res: Response) => {
+  const userId: number = res.locals.jwtPayload.userId;
+  const favourites = await listFavourites(userId);
+  res.formatter.ok(favourites);
 };
 
 export default {
   listAll,
   toggleInFavourites,
+  getFavourites,
 };

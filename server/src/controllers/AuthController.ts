@@ -30,7 +30,7 @@ const login = async (req: Request, res: Response) => {
   const token = generateToken(user.id, user.email, user.role);
 
   // Send the jwt in the response
-  res.status(200).json(token);
+  res.formatter.ok(token);
 };
 
 const changePassword = async (req: Request, res: Response) => {
@@ -69,7 +69,7 @@ const changePassword = async (req: Request, res: Response) => {
 
   await updatePassword(user);
 
-  res.status(201).json("password updated!");
+  res.formatter.created("password updated!");
 };
 
 export default {
