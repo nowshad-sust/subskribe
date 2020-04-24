@@ -53,12 +53,4 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => ProgramRequest, (request) => request.user)
   requests: ProgramRequest[];
-
-  hashPassword() {
-    this.password = bcrypt.hashSync(this.password, saltRounds);
-  }
-
-  checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
-    return bcrypt.compareSync(unencryptedPassword, this.password);
-  }
 }
