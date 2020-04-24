@@ -1,25 +1,26 @@
-import { User } from "./User";
 import {
   Entity,
   Column,
-  Unique,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
+  ManyToOne,
 } from "typeorm";
+import { User } from "./User";
 
 @Entity()
-@Unique(["slug"])
-export class Program {
+export class ProgramRequest {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  slug: string;
+  title: string;
 
-  @Column({ type: "json" })
-  description: JSON;
+  @Column({ nullable: true })
+  url: string;
+
+  @Column({ default: false })
+  resolved: boolean;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
@@ -27,6 +28,6 @@ export class Program {
   @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   updated_at: Date;
 
-  @ManyToMany((type) => User, (user) => user.programs)
-  users: User[];
+  @ManyToOne((type) => User, (user) => user.requests)
+  user: User;
 }

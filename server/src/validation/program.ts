@@ -7,6 +7,17 @@ const getAll = celebrate({
   }),
 });
 
+const request = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    title: Joi.string().required(),
+    url: Joi.string().optional(),
+  }),
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required(),
+  }).unknown(),
+});
+
 export default {
   getAll,
+  request,
 };

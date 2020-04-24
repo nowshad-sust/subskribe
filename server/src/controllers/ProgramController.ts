@@ -3,6 +3,9 @@ import {
   getAll,
   attachDetachProgram,
   listFavourites,
+  addProgramRequest,
+  userRequests,
+  approveProgramRequest,
 } from "../services/programs";
 
 const listAll = async (req: Request, res: Response) => {
@@ -26,8 +29,29 @@ const getFavourites = async (req: Request, res: Response) => {
   res.formatter.ok(favourites);
 };
 
+const requestProgram = async (req: Request, res: Response) => {
+  const userId: number = res.locals.jwtPayload.userId;
+  const { title, url = undefined } = req.body;
+  const result = await addProgramRequest(title, url, userId);
+  res.formatter.ok(result);
+};
+
+const getRequests = async (req: Request, res: Response) => {
+  const requests = await userRequests();
+  res.formatter.ok(requests);
+};
+
+const approveRequest = async (req: Request, res: Response) => {
+  const programId: number = req.body.programId as number;
+  const result = await approveProgramRequest(programId);
+  res.formatter.ok(result);
+};
+
 export default {
   listAll,
   toggleInFavourites,
   getFavourites,
+  requestProgram,
+  getRequests,
+  approveRequest,
 };

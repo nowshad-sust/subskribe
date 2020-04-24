@@ -2,6 +2,7 @@ import { getConnection, getRepository } from "typeorm";
 import { upsert } from "../utils/typeormUpsert";
 import { Program } from "../entity/Program";
 import { User } from "../entity/User";
+import { ProgramRequest } from "../entity/ProgramRequest";
 import { transformProgram } from "../transformers/program";
 import { Pagination, AttachProgram } from "../types";
 
@@ -50,4 +51,39 @@ const attachDetachProgram = async ({ userId, programId }: AttachProgram) => {
   return await userRepo.save(user);
 };
 
-export { batchSave, getAll, listFavourites, attachDetachProgram };
+const addProgramRequest = async (
+  title: string,
+  url?: string,
+  userId?: number
+) => {
+  const request = new ProgramRequest();
+  request.title = title;
+  if (url) request.url = url;
+  if (userId) request.user = (await User.findOne(userId)) as User;
+  return await getRepository(ProgramRequest).save(request);
+};
+
+const userRequests = async () => {
+  return await getRepository(ProgramRequest).find({
+    where: { resolved: false },
+  });
+};
+
+const approveProgramRequest = async (programId: number) => {
+  const programReqRepo = getRepository(ProgramRequest);
+  const request: ProgramRequest = (await programReqRepo.findOne(
+    programId
+  )) as ProgramRequest;
+  request.resolved = true;
+  return await programReqRepo.save(request);
+};
+
+export {
+  batchSave,
+  getAll,
+  listFavourites,
+  attachDetachProgram,
+  addProgramRequest,
+  userRequests,
+  approveProgramRequest,
+};
