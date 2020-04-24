@@ -31,17 +31,42 @@ Ref: https://reelgood.com/all
   </tr>
   <tr>
     <td>POST</td>
-    <td>/api/v1/login</td>
+    <td>/api/v1/auth/login</td>
     <td>Logs in a user with credentials.</td>
   </tr>
   <tr>
     <td>POST</td>
-    <td>/api/v1/register</td>
+    <td>/api/v1/auth/register</td>
     <td>Register a new user.</td>
   </tr>
   <tr>
     <td>PUT</td>
-    <td>/api/v1/change-password</td>
+    <td>/api/v1/auth/change-password</td>
     <td>Changes password of an existing user.</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/v1/programs</td>
+    <td>Get paginated program list.</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/v1/programs/favourites</td>
+    <td>Get user's favourites list.</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/api/v1/programs/requests</td>
+    <td>Get all requested programs as admin.</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/api/v1/programs/requests</td>
+    <td>Add a new program request.</td>
+  </tr>
+  <tr>
+    <td>PUT</td>
+    <td>/api/v1/programs/requests/approve</td>
+    <td>Approve a pending program request.</td>
   </tr>
 </table>
