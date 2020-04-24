@@ -17,7 +17,7 @@ router.post(
   authValidator.register,
   expressAsyncHandler(UserController.register)
 );
-router.post(
+router.put(
   "/change-password",
   [authValidator.changePassword, checkJwt],
   expressAsyncHandler(AuthController.changePassword)
