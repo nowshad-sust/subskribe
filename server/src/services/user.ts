@@ -3,7 +3,8 @@ import * as bcrypt from "bcrypt";
 import { checkIfUnencryptedPasswordIsValid } from "./auth";
 import { ErrorHandler } from "../utils/index";
 import { validate, ValidationError } from "class-validator";
-const saltRounds = 8;
+
+const saltRounds: number = parseInt(process.env.JWT_SALT_ROUNDS as string);
 
 export const getUserByEmail = async (email: string) => {
   return await User.findOneOrFail({ where: { email } });

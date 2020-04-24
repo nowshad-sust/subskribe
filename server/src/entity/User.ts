@@ -15,8 +15,6 @@ import * as bcrypt from "bcrypt";
 import { Program } from "./Program";
 import { ProgramRequest } from "./ProgramRequest";
 
-const saltRounds = 8;
-
 enum RolesEnum {
   Admin = "admin",
   User = "user",
@@ -39,7 +37,7 @@ export class User extends BaseEntity {
   password: string;
 
   @Column({ type: "enum", enum: RolesEnum, default: RolesEnum.User })
-  role: string;
+  role: RolesEnum;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
