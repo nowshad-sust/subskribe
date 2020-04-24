@@ -21,7 +21,7 @@ Ref: https://reelgood.com/all
 - The `server` should be up on http://localhost:4000.
 - The `client` should be up on http://localhost:3000.
 
-# API DOCUMENTATION
+# API Documentation
 
 <table>
   <tr>
