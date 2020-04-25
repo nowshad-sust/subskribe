@@ -1,6 +1,7 @@
 export interface Pagination {
   page: number;
   limit: number;
+  filter?: string;
 }
 
 export interface CustomError extends Error {

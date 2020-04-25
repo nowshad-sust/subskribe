@@ -4,6 +4,7 @@ const getAll = celebrate({
   [Segments.QUERY]: Joi.object().keys({
     page: Joi.number().integer().min(1).required(),
     limit: Joi.number().integer().min(10).required(),
+    filter: Joi.string().optional(),
   }),
 });
 

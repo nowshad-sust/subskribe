@@ -3,6 +3,7 @@ import {
   Entity,
   Column,
   Unique,
+  Index,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
@@ -18,6 +19,7 @@ export class Program {
   @Column()
   slug: string;
 
+  @Index({ fulltext: true })
   @Column()
   title: string;
 
