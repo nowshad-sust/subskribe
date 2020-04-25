@@ -22,10 +22,13 @@ const register = celebrate({
 });
 
 const changePassword = celebrate({
-  [Segments.BODY]: Joi.object().keys({
-    oldPassword: Joi.string().required(),
-    newPassword: Joi.string().disallow(Joi.ref("oldPassword")).required(),
-  }),
+  [Segments.BODY]: Joi.object()
+    .keys({
+      oldPassword: Joi.string().required(),
+      newPassword: Joi.string().disallow(Joi.ref("oldPassword")).required(),
+      confirmNewPassword: Joi.ref("newPassword"),
+    })
+    .with("newPassword", "confirmNewPassword"),
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required(),
   }).unknown(),
