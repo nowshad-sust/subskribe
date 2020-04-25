@@ -18,6 +18,15 @@ export class Program {
   @Column()
   slug: string;
 
+  @Column()
+  title: string;
+
+  @Column()
+  overview: string;
+
+  @Column({ type: "simple-array", default: [] })
+  sources: string[];
+
   @Column({ type: "json" })
   description: JSON;
 

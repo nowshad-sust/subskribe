@@ -28,9 +28,15 @@
 //   episode_source_count: 0,
 // }
 
-const transformProgram = (obj) => ({
-  slug: obj.slug,
-  description: obj,
-});
+const transformProgram = (obj) => {
+  const { slug, title, overview, sources, ...description } = obj;
+  return {
+    slug,
+    title,
+    overview,
+    sources,
+    description,
+  };
+};
 
 export { transformProgram };

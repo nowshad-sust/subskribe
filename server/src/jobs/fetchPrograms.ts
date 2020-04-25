@@ -4,8 +4,9 @@ import { batchSave } from "../services/programs";
 import { getProxy } from "./proxies";
 
 const ROOT_URL = "https://api.reelgood.com/v3.0/content/browse/filtered";
-const ROW_PER_PAGE = 20;
-const TEMP_PAGE_LIMIT = 2;
+const ROW_PER_PAGE = 50;
+const TEMP_PAGE_LIMIT = 10;
+
 const queryParams = {
   availability: "onAnySource",
   content_kind: "both",
@@ -48,26 +49,30 @@ export const fetchPages = async () => {
   console.log("Crawling started");
   const initBrowser = async () => {
     const proxy = getProxy();
+    console.log("fetching with proxy: ", proxy);
     browser = await puppeteer.launch({
       args: [`--proxy-server=http://${proxy}`, "--incognito"],
     });
   };
-  let page = 1;
+  let page;
   let hasNextPage = true;
 
   await initBrowser();
-  for (page = 0; hasNextPage; ) {
+  for (page = 1; hasNextPage; ) {
     try {
       const { results, has_more } = await fetchPage(page);
       if (results.length > 0) {
         await batchSave(results);
       }
+      console.log(`page fetched => page:${page}`);
       if (page === TEMP_PAGE_LIMIT) {
         hasNextPage = false;
       }
       page = page + 1;
-    } catch {
-      initBrowser();
+    } catch (err) {
+      console.error(err);
+      await browser.close();
+      await initBrowser();
     }
   }
   await browser.close();
