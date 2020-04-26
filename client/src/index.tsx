@@ -1,20 +1,27 @@
 import React from "react";
 import { render } from "react-dom";
+import { Provider } from "react-redux";
+// import { PersistGate } from "redux-persist/integration/react";
 import { CSSReset, ThemeProvider, ColorModeProvider } from "@chakra-ui/core";
 import App from "./components/App/App";
 import * as serviceWorker from "./serviceWorker";
 import themeConfig from "./config/theme";
+import { store } from "./store";
 
 import "./index.css";
 
 render(
   <React.StrictMode>
-    <ThemeProvider theme={themeConfig}>
-      <CSSReset />
-      <ColorModeProvider>
-        <App />
-      </ColorModeProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      {/* <PersistGate loading={<div>Loading...</div>} persistor={persistor}> */}
+      <ThemeProvider theme={themeConfig}>
+        <CSSReset />
+        <ColorModeProvider>
+          <App />
+        </ColorModeProvider>
+      </ThemeProvider>
+      {/* </PersistGate> */}
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
