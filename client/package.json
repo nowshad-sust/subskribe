@@ -47,6 +47,7 @@
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
     "use-debounce": "^3.4.2"
   },
   "devDependencies": {
@@ -59,6 +60,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "@types/redux-persist": "^4.3.1",
+    "@types/redux-thunk": "^2.1.0",
     "husky": "^4.2.5",
     "prettier": "^2.0.4",
     "pretty-quick": "^2.0.1",

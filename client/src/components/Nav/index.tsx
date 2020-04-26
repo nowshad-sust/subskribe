@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { useDispatch } from "react-redux";
 import { Heading, Flex, Box, Input } from "@chakra-ui/core";
-import { setSearchKeyword } from "../../store/actions";
+import { search } from "../../store/actions";
 
 const Nav = () => {
   const [input, setInput] = useState("");
@@ -10,7 +10,7 @@ const Nav = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setSearchKeyword(searchKeyword));
+    dispatch(search(searchKeyword));
   }, [searchKeyword, dispatch]);
 
   return (
