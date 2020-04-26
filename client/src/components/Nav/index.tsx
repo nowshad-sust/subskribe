@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 import { useDispatch } from "react-redux";
+import queryString from "query-string";
+import { useLocation, useHistory } from "react-router-dom";
 import { Heading, Flex, Box, Input } from "@chakra-ui/core";
 import { search } from "../../store/actions";
 
 const Nav = () => {
-  const [input, setInput] = useState("");
+  const { filter = "" } = queryString.parse(useLocation().search) as {
+    filter: string;
+  };
+  const [input, setInput] = useState(filter);
   const [searchKeyword] = useDebounce(input, 500);
+  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (searchKeyword) {
+      history.replace({
+        pathname: "",
+        search: `?filter=${searchKeyword}`,
+      });
+    } else {
+      history.replace("/");
+    }
     dispatch(search(searchKeyword));
-  }, [searchKeyword, dispatch]);
+  }, [searchKeyword, history, dispatch]);
 
   return (
     <Box
@@ -34,7 +48,7 @@ const Nav = () => {
       >
         <Heading size="lg">Subskribe</Heading>
         <Input
-          focusBorderColor="lime"
+          focusBorderColor="#2196F3"
           color="black"
           width="400px"
           placeholder="Search"
