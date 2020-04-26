@@ -17,7 +17,7 @@ Ref: https://reelgood.com/all
 - Now `Posgtres` and `pgadmin` should be running on port `6543` and `5555` respectedly.
 - Open two seperate terminal instance inside `client` and `server folder`.
 - Run `npm install` on both the instances.
-- Rrun `npm run start:dev` on both the instances.
+- Run `npm run start:dev` on both the instances.
 - The `server` should be up on http://localhost:4000.
 - The `client` should be up on http://localhost:3000.
 
