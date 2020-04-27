@@ -12,7 +12,7 @@ import {
   StateType,
 } from "./actionTypes";
 
-const limit = 10;
+const limit = 15;
 
 const getPrograms = (page: number, filter: string) =>
   axios

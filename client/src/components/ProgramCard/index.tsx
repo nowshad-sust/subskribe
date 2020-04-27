@@ -14,7 +14,7 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
   }/${id}/poster-342.webp`;
 
   return (
-    <Flex width="200px" m="2">
+    <Flex width={["100%", "200px"]} m="2">
       <Box
         className="program-box"
         width="100%"

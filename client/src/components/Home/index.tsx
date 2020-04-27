@@ -26,6 +26,7 @@ const Home = () => {
       justify="space-around"
       m="10"
       mb="0"
+      pb="10"
     >
       {programs.map((program) => (
         <ProgramCard key={program.id} program={program} />

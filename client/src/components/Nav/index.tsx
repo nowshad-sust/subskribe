@@ -43,14 +43,18 @@ const Nav = () => {
         justify="space-between"
         align="center"
         size="100%"
-        pl="20px"
-        pr="20px"
+        pl={["10px", "20px"]}
+        pr={["10px", "20px"]}
       >
-        <Heading size="lg">Subskribe</Heading>
+        <Heading fontSize={["lg", "xl"]} isTruncated>
+          Subskribe
+        </Heading>
         <Input
           focusBorderColor="#2196F3"
           color="black"
-          width="400px"
+          size="md"
+          maxWidth="400px"
+          pl="5px"
           placeholder="Search"
           value={input}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
