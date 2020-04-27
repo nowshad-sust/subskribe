@@ -1,12 +1,17 @@
-import React from "react";
-import { Box, Flex, Image, Text } from "@chakra-ui/core";
+import React, { useState } from "react";
+import { Box, Flex, Image, Text, Skeleton } from "@chakra-ui/core";
 import { ProgramType } from "./type";
 import "./style.css";
 
 const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
   program,
 }) => {
-  const imageUrl = `https://img.reelgood.com/content/movie/${program.description.id}/poster-342.webp`;
+  const [loading, setLoading] = useState(true);
+
+  const { id, content_type: type } = program.description;
+  const imageUrl = `https://img.reelgood.com/content/${
+    type === "s" ? "show" : type === "m" ? "movie" : ""
+  }/${id}/poster-342.webp`;
 
   return (
     <Flex width="200px" m="2">
@@ -18,16 +23,20 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
         borderWidth="2px"
         rounded="lg"
       >
-        <Image
-          className="program-box-image"
-          src={imageUrl}
-          alt={program.title}
-          fallbackSrc="https://via.placeholder.com/231x347"
-          width="100%"
-          rounded="lg"
-          display="block"
-          height="auto"
-        />
+        <Skeleton isLoaded={!loading}>
+          <Image
+            className="program-box-image"
+            src={imageUrl}
+            alt={program.title}
+            fallbackSrc="https://via.placeholder.com/231x347"
+            width="100%"
+            rounded="lg"
+            display="block"
+            height="auto"
+            onLoad={() => setLoading(false)}
+            onError={() => setLoading(false)}
+          />
+        </Skeleton>
 
         <Box
           className="program-box-content"

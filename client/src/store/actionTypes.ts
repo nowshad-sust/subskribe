@@ -6,6 +6,7 @@ export const SET_HAS_MORE = "SET_HAS_MORE";
 
 interface DescriptionType {
   id: string;
+  content_type: string;
 }
 
 export interface ProgramType {

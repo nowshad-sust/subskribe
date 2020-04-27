@@ -1,5 +1,6 @@
 interface DescriptionType {
   id: string;
+  content_type: string;
 }
 
 export interface ProgramType {
