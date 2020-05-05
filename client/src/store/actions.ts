@@ -1,20 +1,20 @@
 import axios from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
+
 import queryString from "query-string";
 import {
   SET_PROGRAMS,
   SET_SEARCH_KEYWORD,
   SET_PAGE,
+  SET_LIMIT,
   SET_LOADING,
   SET_HAS_MORE,
   ProgramType,
   StateType,
 } from "./actionTypes";
 
-const limit = 15;
-
-const getPrograms = (page: number, filter: string) =>
+const getPrograms = (page: number, filter: string, limit: number) =>
   axios
     .get(
       queryString.stringifyUrl({
@@ -42,7 +42,7 @@ export const search = (
   await dispatch(setLoading(true));
   await dispatch(setSearchKeyword(searchKeyword));
 
-  const data = await getPrograms(1, searchKeyword);
+  const data = await getPrograms(1, searchKeyword, getState().limit);
   if (data.length === 0) {
     await dispatch(setHasMore(false));
   } else {
@@ -64,6 +64,11 @@ export const setPage = (page: number) => ({
   payload: page,
 });
 
+export const setLimit = (limit: number) => ({
+  type: SET_LIMIT,
+  payload: limit,
+});
+
 export const setHasMore = (hasMore: boolean) => ({
   type: SET_HAS_MORE,
   payload: hasMore,
@@ -83,7 +88,7 @@ export const fetchAndSetPrograms = (
 ) => {
   await dispatch(setLoading(true));
   await dispatch(setSearchKeyword(filter));
-  const data = await getPrograms(page, filter);
+  const data = await getPrograms(page, filter, getState().limit);
 
   if (data.length === 0) {
     await dispatch(setHasMore(false));

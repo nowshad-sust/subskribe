@@ -43,6 +43,7 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
           p="2"
           color="white"
           roundedBottom="lg"
+          opacity={[1, 1, 0]}
         >
           <Box mt="1" fontWeight="semibold" as="h6" lineHeight="tight">
             <Text fontSize="15px">{program.title}</Text>

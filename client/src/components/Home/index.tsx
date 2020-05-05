@@ -23,7 +23,7 @@ const Home = () => {
       direction="row"
       wrap="wrap"
       align="flex-start"
-      justify="space-around"
+      justify="center"
       m="10"
       mb="0"
       pb="10"

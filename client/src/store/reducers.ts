@@ -2,6 +2,7 @@ import {
   SET_PROGRAMS,
   SET_SEARCH_KEYWORD,
   SET_PAGE,
+  SET_LIMIT,
   SET_LOADING,
   SET_HAS_MORE,
   Action,
@@ -11,6 +12,7 @@ import {
 const init: StateType = {
   programs: [],
   page: 1,
+  limit: 15,
   loading: false,
   hasMore: true,
   searchKeyword: "",
@@ -32,6 +34,11 @@ const reducer = (state: StateType = init, action: Action) => {
       return {
         ...state,
         page: action.payload,
+      };
+    case SET_LIMIT:
+      return {
+        ...state,
+        limit: action.payload,
       };
     case SET_LOADING:
       return {
