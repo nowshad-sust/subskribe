@@ -16,7 +16,7 @@ const batchSave = async (rawPrograms: any) => {
 };
 
 const getAll = async ({ page, limit, filter }: Pagination) => {
-  let query = getRepository(Program).createQueryBuilder().select();
+  const query = getRepository(Program).createQueryBuilder().select();
 
   if (filter) {
     const { entities, raw } = await query
@@ -26,6 +26,7 @@ const getAll = async ({ page, limit, filter }: Pagination) => {
       )
       .setParameter("query", filter)
       .orderBy("rank", "DESC")
+      .addOrderBy("id", "DESC")
       .take(limit)
       .skip((page - 1) * limit)
       .getRawAndEntities();
