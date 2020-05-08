@@ -29,5 +29,9 @@ export const errorHandler = (
 ) => {
   const { statusCode, message }: { statusCode: number; message: string } = err;
   const errorType: string = responseMap[statusCode] as string;
-  res.formatter[errorType](message);
+  if (errorType) {
+    res.formatter[errorType](message);
+  } else {
+    throw err;
+  }
 };

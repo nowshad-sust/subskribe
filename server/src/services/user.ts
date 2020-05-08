@@ -7,11 +7,17 @@ import { validate, ValidationError } from "class-validator";
 const saltRounds: number = parseInt(process.env.JWT_SALT_ROUNDS as string);
 
 export const getUserByEmail = async (email: string) => {
-  return await User.findOneOrFail({ where: { email } });
+  return await User.findOneOrFail({
+    where: { email },
+    select: ["id", "email", "password"],
+  });
 };
 
 export const getUserById = async (id: number) => {
-  return await User.findOneOrFail(id);
+  return await User.findOneOrFail({
+    where: { id: id },
+    select: ["id", "email", "password"],
+  });
 };
 
 const hashPassword = (password: string) => {

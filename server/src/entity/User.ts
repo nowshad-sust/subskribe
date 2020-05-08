@@ -33,7 +33,7 @@ export class User extends BaseEntity {
   email: string;
 
   // TODO: @Column({ select: false })
-  @Column()
+  @Column({ select: false })
   @Length(4, 100)
   password: string;
 
