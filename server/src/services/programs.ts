@@ -95,7 +95,8 @@ const attachDetachProgram = async ({ userId, programId }: AttachProgram) => {
   } else {
     user.programs.push(program);
   }
-  return await userRepo.save(user);
+  await userRepo.save(user);
+  return { message: "Favourites list updated." };
 };
 
 const addProgramRequest = async (
