@@ -8,18 +8,19 @@ import { useDispatch } from "react-redux";
 const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
   program,
 }) => {
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-
   const {
     id: programId,
     title,
     isFavourite,
     description: { id, content_type: type },
   } = program;
+  const [loading, setLoading] = useState(true);
+  const [favourite, setFavourite] = useState(isFavourite);
+  const dispatch = useDispatch();
 
   const toggleToFavouries = () => {
     dispatch(toggleFavorites(programId));
+    setFavourite((current) => !current);
   };
 
   const imageUrl = `https://img.reelgood.com/content/${
@@ -64,7 +65,7 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
               variant="link"
               icon="star"
               aria-label="add to favourites"
-              color={isFavourite ? "#ffe34b" : "#f2f2f2"}
+              color={favourite ? "#ffe34b" : "#f2f2f2"}
               onClick={toggleToFavouries}
             />
           </Box>
