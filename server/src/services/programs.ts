@@ -18,11 +18,10 @@ const batchSave = async (rawPrograms: any) => {
 const getAll = async ({ page, limit, filter, userId }: Pagination) => {
   const query = getRepository(Program)
     .createQueryBuilder("program")
-    .leftJoinAndMapOne(
-      "program.isFavourite",
-      "program.users",
-      "user",
-      "user_program.userId = :userId",
+    .leftJoinAndSelect(
+      "user_programs_program",
+      "user_program",
+      "user_program.programId = program.id and user_program.userId = :userId",
       {
         userId,
       }
@@ -41,6 +40,8 @@ const getAll = async ({ page, limit, filter, userId }: Pagination) => {
       .offset((page - 1) * limit)
       .getRawAndEntities();
 
+    // filter out entities with rank > 0
+    // Add favourite: true property to entity object
     return entities.reduce(
       (results: Program[], entity: Program, index: number) =>
         raw[index].rank > 0
@@ -48,9 +49,9 @@ const getAll = async ({ page, limit, filter, userId }: Pagination) => {
               ...results,
               {
                 ...entity,
-                rank: raw[index].rank,
                 isFavourite:
-                  !!entity.isFavourite && entity.isFavourite !== null,
+                  !!raw[index].user_program_userId &&
+                  !!raw[index].user_program_userId !== null,
               },
             ]
           : results,
@@ -58,17 +59,19 @@ const getAll = async ({ page, limit, filter, userId }: Pagination) => {
     );
   }
 
-  return await query
-    .orderBy("program_id", "DESC")
+  const { entities, raw } = await query
+    .orderBy("program_id", "ASC")
     .limit(limit)
     .offset((page - 1) * limit)
-    .getMany()
-    .then((rows) =>
-      rows.map((row) => ({
-        ...row,
-        isFavourite: !!row.isFavourite && row.isFavourite !== null,
-      }))
-    );
+    .getRawAndEntities();
+
+  // Add favourite: true property to entity object
+  return entities.map((row, index) => ({
+    ...row,
+    isFavourite:
+      !!raw[index].user_program_userId &&
+      !!raw[index].user_program_userId !== null,
+  }));
 };
 
 const listFavourites = async (userId: number) => {
