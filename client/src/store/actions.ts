@@ -14,6 +14,9 @@ import {
   StateType,
 } from "./actionTypes";
 
+const tempAuthToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibm93c2hhZEBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU4ODk2ODI3OSwiZXhwIjoxNTg5MDU0Njc5fQ.1m6ROfQ5o87AuVO1Vcp32b61FYQVqoHTmzReUK6mjuw";
+
 const getPrograms = (page: number, filter: string, limit: number) =>
   axios
     .get(
@@ -24,7 +27,12 @@ const getPrograms = (page: number, filter: string, limit: number) =>
           limit: `${limit}`,
           ...(filter && { filter }),
         },
-      })
+      }),
+      {
+        headers: {
+          Authorization: `Bearer ${tempAuthToken}`,
+        },
+      }
     )
     .then((res) => res.data.data);
 
@@ -53,6 +61,21 @@ export const search = (
   await dispatch(setPage(2));
   await dispatch(setLoading(false));
 };
+
+export const toggleFavorites = (
+  programId: number
+): ThunkAction<void, StateType, unknown, Action<string>> => () =>
+  axios.post(
+    "http://localhost:4000/api/v1/programs/favourites",
+    {
+      programId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${tempAuthToken}`,
+      },
+    }
+  );
 
 export const setLoading = (loading: boolean) => ({
   type: SET_LOADING,

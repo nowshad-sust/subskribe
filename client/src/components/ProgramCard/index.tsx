@@ -1,14 +1,27 @@
 import React, { useState } from "react";
-import { Box, Flex, Image, Text, Skeleton } from "@chakra-ui/core";
+import { Box, Flex, Image, Text, Skeleton, IconButton } from "@chakra-ui/core";
 import { ProgramType } from "./type";
+import { toggleFavorites } from "../../store/actions";
 import "./style.css";
+import { useDispatch } from "react-redux";
 
 const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
   program,
 }) => {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  const { id, content_type: type } = program.description;
+  const {
+    id: programId,
+    title,
+    isFavourite,
+    description: { id, content_type: type },
+  } = program;
+
+  const toggleToFavouries = () => {
+    dispatch(toggleFavorites(programId));
+  };
+
   const imageUrl = `https://img.reelgood.com/content/${
     type === "s" ? "show" : type === "m" ? "movie" : ""
   }/${id}/poster-342.webp`;
@@ -27,7 +40,7 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
           <Image
             className="program-box-image"
             src={imageUrl}
-            alt={program.title}
+            alt={title}
             fallbackSrc="https://via.placeholder.com/231x347"
             width="100%"
             rounded="lg"
@@ -46,7 +59,14 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
           opacity={[1, 1, 0]}
         >
           <Box mt="1" fontWeight="semibold" as="h6" lineHeight="tight">
-            <Text fontSize="15px">{program.title}</Text>
+            <Text fontSize="15px">{title}</Text>
+            <IconButton
+              variant="link"
+              icon="star"
+              aria-label="add to favourites"
+              color={isFavourite ? "#ffe34b" : "#f2f2f2"}
+              onClick={toggleToFavouries}
+            />
           </Box>
         </Box>
       </Box>

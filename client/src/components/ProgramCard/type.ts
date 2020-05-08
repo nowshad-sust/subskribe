@@ -10,4 +10,5 @@ export interface ProgramType {
   overview: string;
   description: DescriptionType;
   sources: string[];
+  isFavourite?: boolean;
 }
