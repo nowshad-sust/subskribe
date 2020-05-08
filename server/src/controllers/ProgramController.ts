@@ -12,7 +12,8 @@ const listAll = async (req: Request, res: Response) => {
   const page: number = parseInt(req.query.page as string, 10);
   const limit: number = parseInt(req.query.limit as string, 10);
   const filter: string = req.query.filter as string;
-  const data = await getAll({ page, limit, filter });
+  const userId: number = res?.locals?.jwtPayload?.userId;
+  const data = await getAll({ page, limit, filter, userId });
   res.formatter.ok(data);
 };
 

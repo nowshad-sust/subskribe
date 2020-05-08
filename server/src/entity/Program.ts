@@ -40,4 +40,6 @@ export class Program {
 
   @ManyToMany((type) => User, (user) => user.programs)
   users: User[];
+
+  isFavourite?: boolean;
 }

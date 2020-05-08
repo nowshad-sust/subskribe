@@ -2,6 +2,7 @@ export interface Pagination {
   page: number;
   limit: number;
   filter?: string;
+  userId?: number;
 }
 
 export interface CustomError extends Error {

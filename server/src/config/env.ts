@@ -24,7 +24,7 @@ const dbConfig = {
   database: DB_NAME,
   entities: [path.join(__dirname, "../entity/*.ts")],
   synchronize: true,
-  logging: false,
+  logging: true,
 };
 
 export { appConfig, dbConfig };

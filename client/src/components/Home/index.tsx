@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex } from "@chakra-ui/core";
+import { Flex, Text } from "@chakra-ui/core";
 import InfiniteScroll from "react-infinite-scroller";
 import { useDispatch, useSelector } from "react-redux";
 import ProgramCard from "../ProgramCard/index";
@@ -18,6 +18,13 @@ const Home = () => {
     dispatch(fetchAndSetPrograms(page, searchKeyword));
   };
 
+  const NotFoundScreen = (
+    <Text fontSize="2xl" color="white" mt="10%">
+      Opps! We found nothing! <br />
+      Try searching again please.
+    </Text>
+  );
+
   const programsSection = (
     <Flex
       direction="row"
@@ -28,9 +35,11 @@ const Home = () => {
       mb="0"
       pb="10"
     >
-      {programs.map((program) => (
-        <ProgramCard key={program.id} program={program} />
-      ))}
+      {programs?.length > 0
+        ? programs.map((program) => (
+            <ProgramCard key={program.id} program={program} />
+          ))
+        : NotFoundScreen}
     </Flex>
   );
 

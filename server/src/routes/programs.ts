@@ -3,13 +3,14 @@ import expressAsyncHandler from "express-async-handler";
 import programValidator from "../validation/program";
 import ProgramController from "../controllers/ProgramController";
 import { checkJwt } from "../middlewares/checkJwt";
+import { optionalJwt } from "./../middlewares/optionalJwt";
 import { hasRole } from "../middlewares/hasRole";
 
 const router = Router();
 
 router.get(
   "/",
-  [programValidator.getAll],
+  [programValidator.getAll, optionalJwt],
   expressAsyncHandler(ProgramController.listAll)
 );
 

@@ -15,8 +15,18 @@ const batchSave = async (rawPrograms: any) => {
   return await upserted_post;
 };
 
-const getAll = async ({ page, limit, filter }: Pagination) => {
-  const query = getRepository(Program).createQueryBuilder().select();
+const getAll = async ({ page, limit, filter, userId }: Pagination) => {
+  const query = getRepository(Program)
+    .createQueryBuilder("program")
+    .leftJoinAndMapOne(
+      "program.isFavourite",
+      "program.users",
+      "user",
+      "user_program.userId = :userId",
+      {
+        userId,
+      }
+    );
 
   if (filter) {
     const { entities, raw } = await query
@@ -26,22 +36,39 @@ const getAll = async ({ page, limit, filter }: Pagination) => {
       )
       .setParameter("query", filter)
       .orderBy("rank", "DESC")
-      .addOrderBy("id", "DESC")
-      .take(limit)
-      .skip((page - 1) * limit)
+      .addOrderBy("program_id", "ASC")
+      .limit(limit)
+      .offset((page - 1) * limit)
       .getRawAndEntities();
 
     return entities.reduce(
       (results: Program[], entity: Program, index: number) =>
-        raw[index].rank > 0 ? [...results, entity] : results,
+        raw[index].rank > 0
+          ? [
+              ...results,
+              {
+                ...entity,
+                rank: raw[index].rank,
+                isFavourite:
+                  !!entity.isFavourite && entity.isFavourite !== null,
+              },
+            ]
+          : results,
       []
     );
   }
+
   return await query
-    .orderBy("id", "DESC")
-    .take(limit)
-    .skip((page - 1) * limit)
-    .getMany();
+    .orderBy("program_id", "DESC")
+    .limit(limit)
+    .offset((page - 1) * limit)
+    .getMany()
+    .then((rows) =>
+      rows.map((row) => ({
+        ...row,
+        isFavourite: !!row.isFavourite && row.isFavourite !== null,
+      }))
+    );
 };
 
 const listFavourites = async (userId: number) => {

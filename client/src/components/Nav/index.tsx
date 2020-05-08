@@ -69,7 +69,7 @@ const Nav = () => {
           size="md"
           maxWidth="400px"
           pl="5px"
-          placeholder="Search"
+          placeholder="Search at least one word"
           value={input}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setInput(event.target.value)
