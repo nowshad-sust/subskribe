@@ -14,8 +14,7 @@ import {
   StateType,
 } from "./actionTypes";
 
-const tempAuthToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoibm93c2hhZEBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU4ODk2ODI3OSwiZXhwIjoxNTg5MDU0Njc5fQ.1m6ROfQ5o87AuVO1Vcp32b61FYQVqoHTmzReUK6mjuw";
+const tempAuthToken = process.env.REACT_APP_AUTH_TOKEN;
 
 const getPrograms = (page: number, filter: string, limit: number) =>
   axios
