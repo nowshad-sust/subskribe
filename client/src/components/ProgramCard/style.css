@@ -30,3 +30,8 @@
 .program-box:hover .program-box-content {
   opacity: 1;
 }
+
+button:active {
+  border: none;
+  outline: none;
+}

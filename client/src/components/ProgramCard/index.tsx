@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Box, Flex, Image, Text, Skeleton, IconButton } from "@chakra-ui/core";
-import { ProgramType } from "./type";
-import { toggleFavorites } from "../../store/actions";
-import "./style.css";
 import { useDispatch } from "react-redux";
+import { toggleFavorites } from "../../store/actions";
+import { logoMap } from "./channelIcons";
+import { ProgramType } from "./types";
+import "./style.css";
 
 const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
   program,
@@ -13,6 +14,7 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
     title,
     isFavourite,
     description: { id, content_type: type },
+    sources,
   } = program;
   const [loading, setLoading] = useState(true);
   const [favourite, setFavourite] = useState(isFavourite);
@@ -26,6 +28,21 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
   const imageUrl = `https://img.reelgood.com/content/${
     type === "s" ? "show" : type === "m" ? "movie" : ""
   }/${id}/poster-342.webp`;
+
+  const sourceIcons = sources.map((source: string, index: number) => {
+    return (
+      <Image
+        key={`${source}-${index}`}
+        size={["30px", "50px"]}
+        mr="1px"
+        mt="1px"
+        src={`https://img.reelgood.com/service-logos/${
+          logoMap[source] || source
+        }.svg`}
+        alt={source}
+      />
+    );
+  });
 
   return (
     <Flex width={["100%", "200px"]} m="2">
@@ -61,7 +78,12 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
         >
           <Box mt="1" fontWeight="semibold" as="h6" lineHeight="tight">
             <Text fontSize="15px">{title}</Text>
+            <Flex size="100%" justify="center" flexWrap="wrap">
+              {sourceIcons}
+            </Flex>
             <IconButton
+              isRound={true}
+              outline="none"
               variant="link"
               icon="star"
               aria-label="add to favourites"
