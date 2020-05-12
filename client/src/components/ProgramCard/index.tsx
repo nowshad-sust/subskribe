@@ -33,7 +33,7 @@ const ProgramCard: React.FunctionComponent<{ program: ProgramType }> = ({
     return (
       <Image
         key={`${source}-${index}`}
-        size={["30px", "50px"]}
+        size={["60px", "50px"]}
         mr="1px"
         mt="1px"
         src={`https://img.reelgood.com/service-logos/${
