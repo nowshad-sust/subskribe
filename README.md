@@ -1,8 +1,8 @@
 # subskribe (under construction :construction:)
 
-A subscription suggester based on user interests
+A movie and tv shows databse & subscription suggester based on user favourites.
 
-Ref: https://reelgood.com/all
+Refereace website: https://reelgood.com/all
 
 # Prerequisites
 
@@ -20,6 +20,11 @@ Ref: https://reelgood.com/all
 - Run `npm run start:dev` on both the instances.
 - The `server` should be up on http://localhost:4000.
 - The `client` should be up on http://localhost:3000.
+
+# Application Workflow
+- A `node-cron` job crawls movie data every 24 hours and updates/adds to the PostgreSQL database.
+- REST APIs based on Node-Express queries database using TypeORM.
+- React-Redux frontnend consumes the APIs and shows the data accordingly.
 
 # API Documentation
 
