@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useHistory, Link } from "react-router-dom";
+import { Heading, Flex, Box, Input } from "@chakra-ui/core";
 import { useDebounce } from "use-debounce";
 import { useDispatch } from "react-redux";
 import queryString from "query-string";
-import { useLocation, useHistory, Link } from "react-router-dom";
-import { Heading, Flex, Box, Input } from "@chakra-ui/core";
 import { search } from "../../store/actions";
+import Channels from "../Channels";
 
 const Nav = () => {
   const { filter = "" } = queryString.parse(useLocation().search) as {
@@ -77,6 +78,7 @@ const Nav = () => {
             setInput(event.target.value)
           }
         />
+        <Channels />
       </Flex>
     </Box>
   );
