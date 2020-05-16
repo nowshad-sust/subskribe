@@ -4,6 +4,8 @@ A movie and tv shows databse & subscription suggester based on user favourites.
 
 Refereace website: https://reelgood.com/all
 
+TODO: https://github.com/nowshad-sust/subskribe/projects
+
 # Prerequisites
 
 - Docker
